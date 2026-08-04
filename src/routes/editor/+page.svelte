@@ -4,19 +4,49 @@
 	let lineCount = $derived(editorContent.split('\n').length);
 	let lineNumbers = $derived([...Array(lineCount).keys()]);
 	let cursorPosition = $state(0);
-	let cursorLine = $derived(editorContent.substring(0, cursorPosition).split('\n').length - 1);
+	let { cursorLines, activeLine } = $derived.by(() => {
+		const cursorLines: { [x: number]: string } = {};
+		const lines = editorContent.substring(0, cursorPosition).split('\n');
+		lines.forEach((line, index) => (cursorLines[index] = line));
+		const activeLine = lines.length;
+
+		return { cursorLines, activeLine };
+	});
 
 	const updateCursor = () => {
 		cursorPosition = editor.selectionStart;
 	};
 
-	$inspect(cursorPosition, cursorLine);
+	const onKeyDown = (e: KeyboardEvent) => {
+		const target = e.currentTarget as HTMLTextAreaElement;
+		const start = target.selectionStart;
+		const end = target.selectionEnd;
+
+		if (e.key.toLowerCase() === 'tab') {
+			e.preventDefault();
+			target.setRangeText('\t', start, end, 'end');
+			return;
+		}
+
+		if (e.key.toLowerCase() === 'enter') {
+			const previousLine: string = cursorLines[activeLine - 1];
+			const leadingRegex = previousLine.match(/^(\s*)\S/m);
+			const whiteSpace = leadingRegex?.at(1) || '';
+			const startCharValue = leadingRegex?.at(0)?.replaceAll(whiteSpace, '') || '';
+			const startChar = ['-', '*'].includes(startCharValue) ? `${startCharValue} ` : '';
+			if (startChar || whiteSpace) {
+				e.preventDefault();
+				target.setRangeText(`\n${whiteSpace}${startChar}`, start, end, 'end');
+			}
+			return;
+		}
+	};
 </script>
 
 <main>
 	<div class="line-numbers">
 		{#each lineNumbers as number (number)}
-			<span class={{ current: cursorLine === number }}>{number + 1}</span>
+			<span class={{ current: activeLine === number }}>{number + 1}</span>
 		{/each}
 	</div>
 	<textarea
@@ -27,7 +57,8 @@
 		bind:value={editorContent}
 		oninput={updateCursor}
 		onclick={updateCursor}
-		onkeyup={updateCursor}></textarea>
+		onkeyup={updateCursor}
+		onkeydown={onKeyDown}></textarea>
 </main>
 
 <style>
