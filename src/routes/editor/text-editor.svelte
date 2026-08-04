@@ -2,7 +2,7 @@
 	import { getContext } from 'svelte';
 	import { KEY, type EditorState } from './state.svelte';
 
-	const state = getContext<EditorState>(KEY);
+	const context = getContext<EditorState>(KEY);
 
 	const onKeyDown = (e: KeyboardEvent) => {
 		const target = e.currentTarget as HTMLTextAreaElement;
@@ -11,12 +11,12 @@
 
 		if (e.key.toLowerCase() === 'tab') {
 			e.preventDefault();
-			target.setRangeText('\t', start, end, 'end');
+			target.setRangeText('  ', start, end, 'end');
 			return;
 		}
 
 		if (e.key.toLowerCase() === 'enter') {
-			const previousLine: string = state.editor.lines[state.editor.currentLine - 1];
+			const previousLine: string = context.editor.lines[context.editor.currentLine - 1];
 			const leadingRegex = previousLine.match(/^(\s*)\S/m);
 			const whiteSpace = leadingRegex?.at(1) || '';
 			const startCharValue = leadingRegex?.at(0)?.replaceAll(whiteSpace, '') || '';
@@ -32,12 +32,13 @@
 
 <textarea
 	tabindex="0"
+	autocapitalize="none"
 	contenteditable
-	bind:this={state.editor.ref}
-	bind:value={state.editor.content}
-	oninput={state.updateCursor}
-	onclick={state.updateCursor}
-	onkeyup={state.updateCursor}
+	bind:this={context.editor.ref}
+	bind:value={context.editor.content}
+	oninput={context.updateCursor}
+	onclick={context.updateCursor}
+	onkeyup={context.updateCursor}
 	onkeydown={onKeyDown}></textarea>
 
 <style>

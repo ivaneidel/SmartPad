@@ -2,14 +2,14 @@
 	import { getContext } from 'svelte';
 	import { EditorState, KEY } from './state.svelte';
 
-	const state = getContext<EditorState>(KEY);
+	const context = getContext<EditorState>(KEY);
 
-	let lineNumbers = $derived([...Array(state.lineCount).keys()]);
+	let lineNumbers = $derived([...Array(context.lineCount).keys()]);
 </script>
 
 <div>
 	{#each lineNumbers as number (number)}
-		<span class={{ current: state.editor.currentLine - 1 === number }}>{number + 1}</span>
+		<span class={{ current: context.editor.currentLine - 1 === number }}>{number + 1}</span>
 	{/each}
 </div>
 

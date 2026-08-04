@@ -1,6 +1,7 @@
 :root {
 	--background-color: #1f1f1f;
 	--background-color-dark: #181818;
+	--background-color-darker: #131313;
 	--text-color: #f1f1f1;
 	--text-color-light: #919191;
 }
@@ -14,4 +15,5 @@ body {
 * {
 	color: var(--text-color);
 	box-sizing: border-box;
+	font-size: 1rem;
 }

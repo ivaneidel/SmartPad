@@ -3,22 +3,35 @@
 	import { EditorState, KEY } from './state.svelte';
 	import LineNumbers from './line-numbers.svelte';
 	import TextEditor from './text-editor.svelte';
+	import Keyboard from './keyboard.svelte';
 
-	const state = new EditorState();
-	setContext(KEY, state);
+	const context = new EditorState();
+	setContext(KEY, context);
 </script>
 
 <main>
-	<LineNumbers />
-	<TextEditor />
+	<div class="core-editor">
+		<LineNumbers />
+		<TextEditor />
+	</div>
+	<Keyboard />
 </main>
 
 <style>
 	main {
 		width: 100vw;
-		height: 100vh;
+		height: 100dvh;
 		display: flex;
 		align-items: flex-start;
 		justify-content: flex-start;
+		flex-direction: column;
+
+		.core-editor {
+			width: 100%;
+			flex: 1;
+			display: flex;
+			align-items: flex-start;
+			justify-content: flex-start;
+		}
 	}
 </style>
