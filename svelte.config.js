@@ -19,6 +19,10 @@ const config = {
 		paths: {
 			// Must match the GitHub repository name exactly — Pages URLs are case-sensitive.
 			base: process.argv.includes('dev') ? '' : '/SmartPad'
+		},
+		serviceWorker: {
+			// Keep crawler/Pages plumbing out of the offline cache.
+			files: (path) => path !== 'robots.txt' && path !== '.nojekyll'
 		}
 	}
 };

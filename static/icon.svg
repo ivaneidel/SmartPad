@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+	<title>SmartPad</title>
+	<rect width="512" height="512" fill="#1f1f1f" />
+	<rect x="144" y="108" width="224" height="296" rx="28" fill="#f1f1f1" />
+	<g fill="#1f1f1f">
+		<rect x="176" y="156" width="160" height="20" rx="10" />
+		<rect x="176" y="212" width="160" height="20" rx="10" />
+		<rect x="176" y="268" width="112" height="20" rx="10" />
+	</g>
+	<rect x="176" y="324" width="52" height="20" rx="10" fill="#919191" />
+</svg>

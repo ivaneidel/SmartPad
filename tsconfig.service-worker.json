@@ -1,0 +1,16 @@
+{
+	// SvelteKit's generated tsconfig deliberately excludes the service worker, because
+	// it needs the WebWorker lib, which conflicts with DOM. This config type-checks it
+	// on its own; `npm run check` runs both.
+	"extends": "./.svelte-kit/tsconfig.json",
+	"compilerOptions": {
+		"lib": ["esnext", "WebWorker"],
+		"types": [],
+		"strict": true,
+		"noEmit": true,
+		// The kit/svelte ambient .d.ts files assume the DOM lib, which is absent here.
+		"skipLibCheck": true
+	},
+	"include": ["src/service-worker.ts", ".svelte-kit/ambient.d.ts"],
+	"exclude": []
+}

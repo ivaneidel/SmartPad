@@ -7,6 +7,19 @@
 			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content"
 		/>
 		<meta name="text-scale" content="scale" />
+
+		<link rel="manifest" href="%sveltekit.assets%/manifest.webmanifest" />
+		<meta name="theme-color" content="#1f1f1f" />
+
+		<!-- iOS home-screen support: it ignores the manifest's display mode. -->
+		<meta name="mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-title" content="SmartPad" />
+		<!-- "black" rather than "black-translucent": there is no safe-area-inset
+		     handling in the CSS yet, so translucent would put content under the notch. -->
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<link rel="apple-touch-icon" href="%sveltekit.assets%/apple-touch-icon.png" />
+
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">
