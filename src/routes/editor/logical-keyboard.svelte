@@ -4,6 +4,7 @@
 	import { LogicalKeys, logicalKeyToLabel, type LogicalKeyType } from './types';
 	import {
 		copyToClipboard,
+		dupplicateCurrentLine,
 		insertTab,
 		pasteFromClipboard,
 		selectAllText
@@ -26,6 +27,8 @@
 				return insertTab({ e, context });
 			case LogicalKeys.SelectAll:
 				return selectAllText({ e, context });
+			case LogicalKeys.DupplicateLine:
+				return dupplicateCurrentLine({ e, context });
 		}
 	};
 </script>
@@ -57,9 +60,9 @@
 			border: none;
 			background-color: var(--background-color-dark);
 			user-select: none;
-			width: 3.6rem;
-			height: 3.6rem;
-			/* font-size: 0.8rem; */
+			width: 2.8rem;
+			height: 2.8rem;
+			font-size: 0.8rem;
 
 			&:active {
 				background-color: var(--background-color);

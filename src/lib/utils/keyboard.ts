@@ -57,3 +57,6 @@ export const insertKey = async ({ e, context, key }: InsertKeyActionsProps) => {
 
 export const insertTab = async ({ e, context }: KeyboardActionsProps) =>
 	insertKey({ e, context, key: '  ' });
+
+export const dupplicateCurrentLine = async ({ e, context }: KeyboardActionsProps) =>
+	insertKey({ e, context, key: `\n${context.lines[context.currentLine - 1]}` });

@@ -13,14 +13,16 @@ export const LogicalKeys = {
 	Copy: 'Copy',
 	Paste: 'Paste',
 	Tab: 'Tab',
-	SelectAll: 'SelectAll'
+	SelectAll: 'SelectAll',
+	DupplicateLine: 'DupplicateLine'
 } as const;
 
 export const logicalKeyToLabel = {
 	[LogicalKeys.Copy]: '📋↑',
 	[LogicalKeys.Paste]: '📋↓',
 	[LogicalKeys.Tab]: '\\t',
-	[LogicalKeys.SelectAll]: 'All'
+	[LogicalKeys.SelectAll]: 'All',
+	[LogicalKeys.DupplicateLine]: '⇊'
 };
 
 export type LogicalKeyType = (typeof LogicalKeys)[keyof typeof LogicalKeys];

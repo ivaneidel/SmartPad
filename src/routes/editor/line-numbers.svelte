@@ -11,7 +11,8 @@
 	{#each lineNumbers as number (number)}
 		<span
 			class={{ current: context.currentLine - 1 === number }}
-			style="margin-bottom: {context.mirrorHeights[number]}px">{number + 1}</span
+			style="margin-bottom: {(context.editor.mirror[number]?.clientHeight || 0) -
+				(context.editor.baseLineRef?.clientHeight || 0)}px">{number + 1}</span
 		>
 	{/each}
 </div>
