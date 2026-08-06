@@ -1,4 +1,7 @@
 <script lang="ts">
+	// eslint-disable-next-line svelte/valid-prop-names-in-kit-pages
+	export const prerender = true;
+
 	import favicon from '$lib/assets/favicon.svg';
 	import '../app.css';
 
