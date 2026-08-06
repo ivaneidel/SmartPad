@@ -4,8 +4,9 @@ type EditorType = {
 	ref: HTMLTextAreaElement | undefined;
 	content: string;
 	cursorPosition: number;
-	currentLine: number;
-	lines: { [x: number]: string };
+	baseLineRef: HTMLDivElement | undefined;
+	lineHeights: number[];
+	mirror: { [x: number]: HTMLDivElement };
 };
 
 export class EditorState {
@@ -13,21 +14,36 @@ export class EditorState {
 		ref: undefined,
 		content: '',
 		cursorPosition: 0,
-		currentLine: 1,
-		lines: {}
+		baseLineRef: undefined,
+		lineHeights: [],
+		mirror: {}
 	});
 
 	get lineCount() {
 		return this.editor.content.split('\n').length;
 	}
 
-	updateCursor = () => {
-		if (!this.editor.ref) return;
+	get mirrorHeights() {
+		return Object.values(this.editor.mirror).map((child) => {
+			const height = (child as HTMLDivElement)?.offsetHeight || 0;
+			if (height <= 0 || !this.editor.baseLineRef) return 0;
 
-		this.editor.cursorPosition = this.editor.ref.selectionStart;
+			console.log(height, this.editor.baseLineRef.offsetHeight);
 
-		const lines = this.editor.content.substring(0, this.editor.cursorPosition).split('\n');
-		lines.forEach((line, index) => (this.editor.lines[index] = line));
-		this.editor.currentLine = lines.length;
-	};
+			return height - this.editor.baseLineRef.offsetHeight;
+		});
+	}
+
+	get lines() {
+		const _lines: { [x: number]: string } = {};
+		this.editor.content
+			.substring(0, this.editor.ref?.selectionStart)
+			.split('\n')
+			.forEach((line, index) => (_lines[index] = line));
+		return _lines;
+	}
+
+	get currentLine() {
+		return Object.keys(this.lines).length;
+	}
 }

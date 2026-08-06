@@ -9,7 +9,10 @@
 
 <div>
 	{#each lineNumbers as number (number)}
-		<span class={{ current: context.editor.currentLine - 1 === number }}>{number + 1}</span>
+		<span
+			class={{ current: context.currentLine - 1 === number }}
+			style="margin-bottom: {context.mirrorHeights[number]}px">{number + 1}</span
+		>
 	{/each}
 </div>
 

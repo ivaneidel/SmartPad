@@ -1,25 +1,24 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
 	import { KEY, type EditorState } from './state.svelte';
-	import { allKeys, Keys, type KeyType } from './types';
+	import { PhysicalKeys, type PhysicalKeyType } from './types';
+	import {
+		copyToClipboard,
+		insertTab,
+		pasteFromClipboard,
+		selectAllText
+	} from '$lib/utils/keyboard';
 
 	const context = getContext<EditorState>(KEY);
 
-	let keysDown = $state<KeyType[]>([]);
+	let keysDown = $state<PhysicalKeyType[]>([]);
 
-	const toggleKey = (key: KeyType) => {
+	const toggleKey = (e: Event, key: PhysicalKeyType) => {
 		if (!context.editor.ref) return;
 		context.editor.ref.focus();
 
-		if (key === Keys.Tab) {
-			context.editor.ref.setRangeText(
-				'  ',
-				context.editor.ref.selectionStart,
-				context.editor.ref.selectionEnd,
-				'end'
-			);
-
-			return;
+		if (key === PhysicalKeys.Tab) {
+			return insertTab({ e, context });
 		}
 
 		if (keysDown.includes(key)) {
@@ -37,27 +36,17 @@
 			keysDown = [];
 
 			if (e instanceof InputEvent) {
-				if (curretKeys.includes(Keys.Ctrl) && curretKeys.length === 1) {
+				if (curretKeys.includes(PhysicalKeys.Ctrl) && curretKeys.length === 1) {
 					if (e.data === 'c') {
-						e.preventDefault();
-						const currentSelection = context.editor.content.substring(
-							context.editor.ref.selectionStart,
-							context.editor.ref.selectionEnd
-						);
-						await navigator.clipboard.writeText(currentSelection);
-						return;
+						return copyToClipboard({ e, context });
 					}
 
 					if (e.data === 'v') {
-						e.preventDefault();
-						const paste = await navigator.clipboard.readText();
-						context.editor.ref.setRangeText(
-							paste,
-							context.editor.ref.selectionStart,
-							context.editor.ref.selectionEnd,
-							'end'
-						);
-						return;
+						return pasteFromClipboard({ e, context });
+					}
+
+					if (e.data === 'a') {
+						return selectAllText({ e, context });
 					}
 				}
 			}
@@ -72,11 +61,11 @@
 </script>
 
 <div>
-	{#each allKeys as key (key)}
+	{#each Object.keys(PhysicalKeys) as key (key)}
 		<button
 			type="button"
-			onclick={() => toggleKey(key as KeyType)}
-			class={{ active: keysDown.includes(key as KeyType) }}>{key}</button
+			onclick={(e) => toggleKey(e, key as PhysicalKeyType)}
+			class={{ active: keysDown.includes(key as PhysicalKeyType) }}>{key}</button
 		>
 	{/each}
 </div>

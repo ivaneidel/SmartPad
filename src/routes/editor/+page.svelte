@@ -3,7 +3,7 @@
 	import { EditorState, KEY } from './state.svelte';
 	import LineNumbers from './line-numbers.svelte';
 	import TextEditor from './text-editor.svelte';
-	import Keyboard from './keyboard.svelte';
+	import LogicalKeyboard from './logical-keyboard.svelte';
 
 	const context = new EditorState();
 	setContext(KEY, context);
@@ -14,7 +14,7 @@
 		<LineNumbers />
 		<TextEditor />
 	</div>
-	<Keyboard />
+	<LogicalKeyboard />
 </main>
 
 <style>
@@ -28,10 +28,13 @@
 
 		.core-editor {
 			width: 100%;
+			height: 100%;
 			flex: 1;
 			display: flex;
 			align-items: flex-start;
 			justify-content: flex-start;
+			overflow: hidden;
+			overflow-y: auto;
 		}
 	}
 </style>

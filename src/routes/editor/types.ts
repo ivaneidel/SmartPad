@@ -1,8 +1,26 @@
-export const Keys = {
+export const PhysicalKeys = {
 	Ctrl: 'Ctrl',
 	Shift: 'Shift',
 	Tab: 'Tab'
 } as const;
 
-export type KeyType = (typeof Keys)[keyof typeof Keys];
-export const allKeys = Object.keys(Keys);
+export type PhysicalKeyType = (typeof PhysicalKeys)[keyof typeof PhysicalKeys];
+
+/**
+ * Order here is how it's rendered on screen
+ */
+export const LogicalKeys = {
+	Copy: 'Copy',
+	Paste: 'Paste',
+	Tab: 'Tab',
+	SelectAll: 'SelectAll'
+} as const;
+
+export const logicalKeyToLabel = {
+	[LogicalKeys.Copy]: '📋↑',
+	[LogicalKeys.Paste]: '📋↓',
+	[LogicalKeys.Tab]: '\\t',
+	[LogicalKeys.SelectAll]: 'All'
+};
+
+export type LogicalKeyType = (typeof LogicalKeys)[keyof typeof LogicalKeys];
