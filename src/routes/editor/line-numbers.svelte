@@ -19,7 +19,7 @@
 
 <style>
 	div {
-		height: 100%;
+		min-height: 101%;
 		display: flex;
 		justify-content: flex-start;
 		align-items: flex-end;

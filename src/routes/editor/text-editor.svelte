@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
 	import { KEY, type EditorState } from './state.svelte';
+	import { saveTextToSession } from '../../lib/utils/sessionStorage';
 
 	const context = getContext<EditorState>(KEY);
 
@@ -12,7 +13,6 @@
 		if (e.key.toLowerCase() === 'tab') {
 			e.preventDefault();
 			target.setRangeText('  ', start, end, 'end');
-			return;
 		}
 
 		if (e.key.toLowerCase() === 'enter') {
@@ -25,8 +25,9 @@
 				e.preventDefault();
 				target.setRangeText(`\n${whiteSpace}${startChar}`, start, end, 'end');
 			}
-			return;
 		}
+
+		saveTextToSession(target.value);
 	};
 </script>
 
